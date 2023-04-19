@@ -23,6 +23,8 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform rearLeftWheelTransform;
     [SerializeField] private Transform rearRightWheelTransform;
 
+    [SerializeField] private GameObject brakeLights;
+
     private void Update()
     {
         GetInput();
@@ -51,6 +53,9 @@ public class CarController : MonoBehaviour
 
     private void HandleBreaking()
     {
+        if(isBreakingInput) brakeLights.SetActive(true);
+        else brakeLights.SetActive(false);
+
         frontRightWheelCollider.brakeTorque = isBreakingInput ? breakForce : 0; 
         frontLeftWheelCollider.brakeTorque = isBreakingInput ? breakForce : 0; 
         rearLeftWheelCollider.brakeTorque = isBreakingInput ? breakForce : 0; 
