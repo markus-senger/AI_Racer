@@ -24,6 +24,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform rearRightWheelTransform;
 
     [SerializeField] private GameObject brakeLights;
+    [SerializeField] private GameObject reversingLights;
 
     private void Update()
     {
@@ -47,8 +48,12 @@ public class CarController : MonoBehaviour
 
     private void HandleCarAcceleration()
     {
-        frontLeftWheelCollider.motorTorque = accelerationInput * accelerationForce;
-        frontRightWheelCollider.motorTorque = accelerationInput * accelerationForce;
+        float torque = accelerationInput * accelerationForce;
+        frontLeftWheelCollider.motorTorque = torque;
+        frontRightWheelCollider.motorTorque = torque;
+
+        if(torque < 0) reversingLights.SetActive(true);
+        else reversingLights.SetActive(false);
     }
 
     private void HandleBreaking()
