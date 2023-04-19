@@ -51,13 +51,10 @@ public class CarController : MonoBehaviour
 
     private void HandleBreaking()
     {
-        if (isBreakingInput)
-        {
-            frontRightWheelCollider.brakeTorque = breakForce;
-            frontLeftWheelCollider.brakeTorque = breakForce;
-            rearLeftWheelCollider.brakeTorque = breakForce;
-            rearRightWheelCollider.brakeTorque = breakForce;
-        }
+        frontRightWheelCollider.brakeTorque = isBreakingInput ? breakForce : 0; 
+        frontLeftWheelCollider.brakeTorque = isBreakingInput ? breakForce : 0; 
+        rearLeftWheelCollider.brakeTorque = isBreakingInput ? breakForce : 0; 
+        rearRightWheelCollider.brakeTorque = isBreakingInput ? breakForce : 0; 
     }
 
     private void HandleCarSteering()
