@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CarController2 : MonoBehaviour
+public class CarController : MonoBehaviour
 {
     [SerializeField] private Rigidbody motorSphere;
     [SerializeField] private float fwdSpeed;
@@ -59,7 +59,7 @@ public class CarController2 : MonoBehaviour
     private void HandleRotation()
     {
         if (Mathf.Abs(Input.GetAxisRaw("Mouse X")) > mouseDeadZone)
-            turnInput += Input.GetAxisRaw("Mouse X");
+            turnInput += Input.GetAxisRaw("Mouse X") * 2;
 
         if (Mathf.Abs(turnInput) > turnRadius)
             turnInput = turnInput > 0 ? turnRadius : -turnRadius;
