@@ -1,93 +1,84 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CarController : MonoBehaviour
+public class CarController2 : MonoBehaviour
 {
-    private float steeringInput;
-    private float accelerationInput;
-    private bool isBreakingInput;
-
-    [SerializeField] private float accelerationForce;
-    [SerializeField] private float breakForce;
-    [SerializeField] private float maxSteerAngle;
-
-    [SerializeField] private WheelCollider frontLeftWheelCollider;
-    [SerializeField] private WheelCollider frontRightWheelCollider;
-    [SerializeField] private WheelCollider rearLeftWheelCollider;
-    [SerializeField] private WheelCollider rearRightWheelCollider;
-
-    [SerializeField] private Transform frontLeftWheelTransform;
-    [SerializeField] private Transform frontRightWheeTransform;
-    [SerializeField] private Transform rearLeftWheelTransform;
-    [SerializeField] private Transform rearRightWheelTransform;
+    [SerializeField] private Rigidbody motorSphere;
+    [SerializeField] private float fwdSpeed;
+    [SerializeField] private float revSpeed;
+    [SerializeField] private float turnSpeed;
+    [SerializeField] private float turnRadius;
+    [SerializeField] private float mouseDeadZone;
 
     [SerializeField] private GameObject brakeLights;
     [SerializeField] private GameObject reversingLights;
 
+    private float moveInput;
+    private float moveSpeed;
+    private float turnInput;
+
+    private int cntForBrakeLightDuration;
+    private int brakeLightDuration = 10;
+
+    private void Start()
+    {
+        motorSphere.transform.parent = null;
+        ResetValues();
+    }
+
     private void Update()
     {
-        GetInput();
+        float oldMoveInput = moveInput;
+        moveInput += Input.GetAxisRaw("Mouse ScrollWheel");
+
+        if (oldMoveInput > moveInput) brakeLights.SetActive(true);
+        else if (cntForBrakeLightDuration > brakeLightDuration)
+        {
+            brakeLights.SetActive(false);
+            cntForBrakeLightDuration = 0;
+        }
+        else cntForBrakeLightDuration++;
+
+        if (moveInput <= 0)
+        {
+            ResetValues();
+        }
+
+        HandleRotation();
+
+        if (moveSpeed > fwdSpeed)
+        {
+            moveSpeed = fwdSpeed;
+            moveInput = oldMoveInput;
+        }
+
+        transform.position = motorSphere.transform.position;
+    }
+
+    private void HandleRotation()
+    {
+        if (Mathf.Abs(Input.GetAxisRaw("Mouse X")) > mouseDeadZone)
+            turnInput += Input.GetAxisRaw("Mouse X");
+
+        if (Mathf.Abs(turnInput) > turnRadius)
+            turnInput = turnInput > 0 ? turnRadius : -turnRadius;
+
+        float newRotation = turnInput * turnSpeed * moveInput * Time.deltaTime;
+        transform.Rotate(0, newRotation, 0, Space.World);
+
+        moveSpeed = moveInput * (moveInput > 0 ? fwdSpeed : revSpeed);
     }
 
     private void FixedUpdate()
     {
-        HandleCarAcceleration();
-        HandleBreaking();
-        HandleCarSteering();
-        UpdateWheels();
+        motorSphere.AddForce(transform.forward * moveSpeed, ForceMode.Acceleration);
     }
 
-    private void GetInput()
+    private void ResetValues()
     {
-        steeringInput = Input.GetAxis("Horizontal");
-        accelerationInput = Input.GetAxis("Vertical");
-        isBreakingInput = Input.GetKey(KeyCode.Space);
-    }
-
-    private void HandleCarAcceleration()
-    {
-        float torque = accelerationInput * accelerationForce;
-        frontLeftWheelCollider.motorTorque = torque;
-        frontRightWheelCollider.motorTorque = torque;
-
-        if(torque < 0) reversingLights.SetActive(true);
-        else reversingLights.SetActive(false);
-    }
-
-    private void HandleBreaking()
-    {
-        if(isBreakingInput) brakeLights.SetActive(true);
-        else brakeLights.SetActive(false);
-
-        frontRightWheelCollider.brakeTorque = isBreakingInput ? breakForce : 0; 
-        frontLeftWheelCollider.brakeTorque = isBreakingInput ? breakForce : 0; 
-        rearLeftWheelCollider.brakeTorque = isBreakingInput ? breakForce : 0; 
-        rearRightWheelCollider.brakeTorque = isBreakingInput ? breakForce : 0; 
-    }
-
-    private void HandleCarSteering()
-    {
-        frontLeftWheelCollider.steerAngle = maxSteerAngle * steeringInput;  // steeringInput is normalized (-1 to 1)
-        frontRightWheelCollider.steerAngle = maxSteerAngle * steeringInput;
-    }
-
-    private void UpdateWheels()
-    {
-        UpdateSingleWheel(frontLeftWheelCollider, frontLeftWheelTransform);
-        UpdateSingleWheel(frontRightWheelCollider, frontRightWheeTransform);
-        UpdateSingleWheel(rearRightWheelCollider, rearRightWheelTransform);
-        UpdateSingleWheel(rearLeftWheelCollider, rearLeftWheelTransform);
-    }
-
-    private void UpdateSingleWheel(WheelCollider wheelCollider, Transform wheelTransform)
-    {
-        Vector3 pos;
-        Quaternion rot;
-        wheelCollider.GetWorldPose(out pos, out rot);
-
-        wheelTransform.rotation = rot;
-        wheelTransform.position = pos;
+        moveSpeed = 0;
+        moveInput = 0;
+        turnInput = 0;
     }
 }
