@@ -75,10 +75,13 @@ public class CarController : MonoBehaviour
         {
             newRotation = turnInput * turnSpeed * Time.deltaTime;
             transform.Rotate(0, newRotation, 0, Space.World);
+
+            uiTurnSlider.GetComponent<RectTransform>().sizeDelta = new Vector2(Utility.Map(Mathf.Abs(turnInput), 0, turnRadius, 0, 200), 18);
+            if (turnInput > 0) uiTurnSlider.GetComponent<Image>().color = new Color(0.6313726f, 0.6982701f, 0.9741356f);
+            else uiTurnSlider.GetComponent<Image>().color = new Color(0.6313726f, 0.9921569f, 0.9741356f);
         }
-        uiTurnSlider.GetComponent<RectTransform>().sizeDelta = new Vector2(Utility.Map(Mathf.Abs(turnInput), 0, turnRadius, 0, 200), 18);
-        if (turnInput > 0) uiTurnSlider.GetComponent<Image>().color = new Color(0.6313726f, 0.6982701f, 0.9741356f);
-        else uiTurnSlider.GetComponent<Image>().color = new Color(0.6313726f, 0.9921569f, 0.9741356f);
+        else
+            uiTurnSlider.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 18);
     }
 
     private void HandleBrakeLights()
