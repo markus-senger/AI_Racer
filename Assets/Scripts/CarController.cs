@@ -15,6 +15,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private GameObject reversingLights;
 
     private float moveInput;
+    private float oldMoveInput;
     private float moveSpeed;
     private float turnInput;
 
@@ -29,23 +30,21 @@ public class CarController : MonoBehaviour
 
     private void Update()
     {
-        float oldMoveInput = moveInput;
-        moveInput += Input.GetAxisRaw("Mouse ScrollWheel") / 2;
+        oldMoveInput = moveInput;
+        moveInput += Input.GetAxisRaw("Mouse ScrollWheel") / 3;
 
-        if (oldMoveInput > moveInput) brakeLights.SetActive(true);
-        else if (cntForBrakeLightDuration > brakeLightDuration)
-        {
-            brakeLights.SetActive(false);
-            cntForBrakeLightDuration = 0;
-        }
-        else cntForBrakeLightDuration++;
+        HandleBrakeLights();
 
         if (moveInput <= 0)
-        {
             ResetValues();
-        }
 
         HandleRotation();
+        HandleMoveSpeed();
+    }
+
+    private void HandleMoveSpeed()
+    {
+        moveSpeed = moveInput * (moveInput > 0 ? fwdSpeed : revSpeed);
 
         if (moveSpeed > fwdSpeed)
         {
@@ -64,10 +63,22 @@ public class CarController : MonoBehaviour
         if (Mathf.Abs(turnInput) > turnRadius)
             turnInput = turnInput > 0 ? turnRadius : -turnRadius;
 
-        float newRotation = turnInput * turnSpeed * moveInput * Time.deltaTime;
-        transform.Rotate(0, newRotation, 0, Space.World);
+        if (moveSpeed > 0)
+        {
+            float newRotation = turnInput * turnSpeed * Time.deltaTime;
+            transform.Rotate(0, newRotation, 0, Space.World);
+        }
+    }
 
-        moveSpeed = moveInput * (moveInput > 0 ? fwdSpeed : revSpeed);
+    private void HandleBrakeLights()
+    {
+        if (oldMoveInput > moveInput) brakeLights.SetActive(true);
+        else if (cntForBrakeLightDuration > brakeLightDuration)
+        {
+            brakeLights.SetActive(false);
+            cntForBrakeLightDuration = 0;
+        }
+        else cntForBrakeLightDuration++;
     }
 
     private void FixedUpdate()

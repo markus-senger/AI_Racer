@@ -8258,8 +8258,8 @@ MonoBehaviour:
   motorSphere: {fileID: 412816291}
   fwdSpeed: 300
   revSpeed: 100
-  turnSpeed: 4
-  turnRadius: 90
+  turnSpeed: 1
+  turnRadius: 50
   mouseDeadZone: 0.1
   brakeLights: {fileID: 561078430}
   reversingLights: {fileID: 223543899}
@@ -8514,7 +8514,7 @@ MonoBehaviour:
   m_ScreenY: 0.65
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
-  m_SoftZoneWidth: 0.8
+  m_SoftZoneWidth: 0.16
   m_SoftZoneHeight: 0.8
   m_BiasX: 0
   m_BiasY: -0.000000074505806
@@ -13364,7 +13364,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1343828857}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: 0.000000002598643, z: -5.312182e-10, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -13981,7 +13981,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687258581}
-  m_LocalRotation: {x: 0.10065097, y: -0.000000014355781, z: 0.0000000014522986, w: 0.9949218}
+  m_LocalRotation: {x: 0.10065097, y: -0.000000048414176, z: 0.000000004897806, w: 0.9949218}
   m_LocalPosition: {x: 0.0000007719318, y: -0.0011320114, z: -12.200431}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -14041,8 +14041,8 @@ MonoBehaviour:
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 1
-    m_Time: 2
+    m_Style: 2
+    m_Time: 1
     m_CustomCurve:
       serializedVersion: 2
       m_Curve: []
