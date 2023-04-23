@@ -15,6 +15,7 @@ public class CarController : MonoBehaviour
 
     [SerializeField] private GameObject brakeLights;
     [SerializeField] private GameObject reversingLights;
+    [SerializeField] private TrailRenderer[] trails;
 
     [SerializeField] private RectTransform uiSpeedSlider;
     [SerializeField] private GameObject uiTurnSlider;
@@ -45,6 +46,7 @@ public class CarController : MonoBehaviour
 
         HandleRotation();
         HandleMoveSpeed();
+        HandleTrails();
     }
 
     private void HandleMoveSpeed()
@@ -93,6 +95,24 @@ public class CarController : MonoBehaviour
             cntForBrakeLightDuration = 0;
         }
         else cntForBrakeLightDuration++;
+    }
+
+    private void HandleTrails()
+    {
+        if(Mathf.Abs(turnInput) > turnRadius / 2 && moveSpeed > fwdSpeed / 5)
+        {
+            foreach(var trail in trails)
+            {
+                trail.emitting = true;
+            }
+        }
+        else
+        {
+            foreach (var trail in trails)
+            {
+                trail.emitting = false;
+            }
+        }
     }
 
     private void FixedUpdate()
