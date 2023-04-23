@@ -30,7 +30,7 @@ public class CarController : MonoBehaviour
     private void Update()
     {
         float oldMoveInput = moveInput;
-        moveInput += Input.GetAxisRaw("Mouse ScrollWheel");
+        moveInput += Input.GetAxisRaw("Mouse ScrollWheel") / 2;
 
         if (oldMoveInput > moveInput) brakeLights.SetActive(true);
         else if (cntForBrakeLightDuration > brakeLightDuration)
@@ -59,7 +59,7 @@ public class CarController : MonoBehaviour
     private void HandleRotation()
     {
         if (Mathf.Abs(Input.GetAxisRaw("Mouse X")) > mouseDeadZone)
-            turnInput += Input.GetAxisRaw("Mouse X") * 2;
+            turnInput += Input.GetAxisRaw("Mouse X") * 3;
 
         if (Mathf.Abs(turnInput) > turnRadius)
             turnInput = turnInput > 0 ? turnRadius : -turnRadius;
