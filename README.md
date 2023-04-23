@@ -8,3 +8,6 @@ Currently, the Unity project allows controlling the vehicle through mouse input.
 
 ![image](https://user-images.githubusercontent.com/77236323/233394167-ce22cbd3-dc38-4e0d-8c06-1b66eb4a937c.png)
 
+![image](https://user-images.githubusercontent.com/77236323/233858202-1bb5f578-4c20-4cff-82b7-32a224559166.png)
+
+
