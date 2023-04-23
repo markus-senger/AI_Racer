@@ -1,6 +1,8 @@
+using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CarController : MonoBehaviour
 {
@@ -13,6 +15,9 @@ public class CarController : MonoBehaviour
 
     [SerializeField] private GameObject brakeLights;
     [SerializeField] private GameObject reversingLights;
+
+    [SerializeField] private RectTransform uiSpeedSlider;
+    [SerializeField] private GameObject uiTurnSlider;
 
     private float moveInput;
     private float oldMoveInput;
@@ -51,6 +56,8 @@ public class CarController : MonoBehaviour
             moveSpeed = fwdSpeed;
             moveInput = oldMoveInput;
         }
+       
+        uiSpeedSlider.sizeDelta = new Vector2(Utility.Map(moveSpeed, 0, fwdSpeed, 0, 200), 18);
 
         transform.position = motorSphere.transform.position;
     }
@@ -63,11 +70,15 @@ public class CarController : MonoBehaviour
         if (Mathf.Abs(turnInput) > turnRadius)
             turnInput = turnInput > 0 ? turnRadius : -turnRadius;
 
+        float newRotation = 0;
         if (moveSpeed > 0)
         {
-            float newRotation = turnInput * turnSpeed * Time.deltaTime;
+            newRotation = turnInput * turnSpeed * Time.deltaTime;
             transform.Rotate(0, newRotation, 0, Space.World);
         }
+        uiTurnSlider.GetComponent<RectTransform>().sizeDelta = new Vector2(Utility.Map(Mathf.Abs(turnInput), 0, turnRadius, 0, 200), 18);
+        if (turnInput > 0) uiTurnSlider.GetComponent<Image>().color = new Color(0.6313726f, 0.6982701f, 0.9741356f);
+        else uiTurnSlider.GetComponent<Image>().color = new Color(0.6313726f, 0.9921569f, 0.9741356f);
     }
 
     private void HandleBrakeLights()
