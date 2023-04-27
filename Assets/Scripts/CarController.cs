@@ -11,6 +11,7 @@ public class CarController : MonoBehaviour
 
     [SerializeField] private float fwdSpeed;
     [SerializeField] private float revSpeed;
+    [SerializeField] private float collisionImpact;
     [SerializeField] private float turnSpeed;
     [SerializeField] private float turnRadius;
     [SerializeField] private float mouseDeadZone;
@@ -32,6 +33,9 @@ public class CarController : MonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = false;
+
         motorSphere.transform.parent = null;
         car.transform.parent = null;
         ResetValues();
@@ -43,6 +47,8 @@ public class CarController : MonoBehaviour
         moveInput += Input.GetAxisRaw("Mouse ScrollWheel") / 3;
 
         HandleBrakeLights();
+
+        car.MoveRotation(transform.rotation);
 
         if (moveInput <= 0)
             ResetValues();
@@ -56,20 +62,15 @@ public class CarController : MonoBehaviour
     {
         moveSpeed = moveInput * (moveInput > 0 ? fwdSpeed : revSpeed);
 
-        Debug.Log(moveInput);
-
         if (moveSpeed > fwdSpeed)
         {
             moveSpeed = fwdSpeed;
             moveInput = oldMoveInput;
         }
-       
+
         uiSpeedSlider.sizeDelta = new Vector2(Utility.Map(moveSpeed, 0, fwdSpeed, 0, 200), 18);
 
-        if(moveSpeed > 0)
-            transform.position = motorSphere.transform.position;
-        else
-            motorSphere.transform.position = transform.position;
+        transform.position = motorSphere.transform.position;
     }
 
     private void HandleRotation()
@@ -125,9 +126,14 @@ public class CarController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        motorSphere.AddForce(transform.forward * moveSpeed, ForceMode.Acceleration);
+        if (ColliderCheck.collisionFlag)
+        {
+            moveInput -= collisionImpact;
+            if (moveInput < 0) moveInput = 0.1f;
+            ColliderCheck.collisionFlag = false;
+        }
 
-        car.MoveRotation(transform.rotation);
+        motorSphere.AddForce(transform.forward * moveSpeed, ForceMode.Acceleration);       
     }
 
     private void ResetValues()
