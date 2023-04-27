@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class CarController : MonoBehaviour
 {
     [SerializeField] private Rigidbody motorSphere;
+    [SerializeField] private Rigidbody car;
+
     [SerializeField] private float fwdSpeed;
     [SerializeField] private float revSpeed;
     [SerializeField] private float turnSpeed;
@@ -31,6 +33,7 @@ public class CarController : MonoBehaviour
     private void Start()
     {
         motorSphere.transform.parent = null;
+        car.transform.parent = null;
         ResetValues();
     }
 
@@ -118,6 +121,8 @@ public class CarController : MonoBehaviour
     private void FixedUpdate()
     {
         motorSphere.AddForce(transform.forward * moveSpeed, ForceMode.Acceleration);
+
+        car.MoveRotation(transform.rotation);
     }
 
     private void ResetValues()
