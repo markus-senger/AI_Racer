@@ -56,6 +56,8 @@ public class CarController : MonoBehaviour
     {
         moveSpeed = moveInput * (moveInput > 0 ? fwdSpeed : revSpeed);
 
+        Debug.Log(moveInput);
+
         if (moveSpeed > fwdSpeed)
         {
             moveSpeed = fwdSpeed;
@@ -64,7 +66,10 @@ public class CarController : MonoBehaviour
        
         uiSpeedSlider.sizeDelta = new Vector2(Utility.Map(moveSpeed, 0, fwdSpeed, 0, 200), 18);
 
-        transform.position = motorSphere.transform.position;
+        if(moveSpeed > 0)
+            transform.position = motorSphere.transform.position;
+        else
+            motorSphere.transform.position = transform.position;
     }
 
     private void HandleRotation()
