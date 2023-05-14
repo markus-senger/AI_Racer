@@ -6,10 +6,10 @@ using UnityEngine.UI;
 
 public class CarController : MonoBehaviour
 {
-    [SerializeField] private Rigidbody motorSphere;
+    public Rigidbody motorSphere;
     [SerializeField] private Rigidbody car;
 
-    [SerializeField] private float fwdSpeed;
+    public float fwdSpeed;
     [SerializeField] private float revSpeed;
     [SerializeField] private float collisionImpact;
     [SerializeField] private float turnSpeed;
@@ -22,6 +22,8 @@ public class CarController : MonoBehaviour
 
     [SerializeField] private RectTransform uiSpeedSlider;
     [SerializeField] private GameObject uiTurnSlider;
+
+    [SerializeField] private DriveAgent driveAgent;
 
     private float moveInput;
     private float oldMoveInput;
@@ -44,7 +46,8 @@ public class CarController : MonoBehaviour
     private void Update()
     {
         oldMoveInput = moveInput;
-        moveInput += Input.GetAxisRaw("Mouse ScrollWheel") / 3;
+        if (!driveAgent.enabled)
+            moveInput += GetInputMove();
 
         HandleBrakeLights();
 
@@ -56,6 +59,32 @@ public class CarController : MonoBehaviour
         HandleRotation();
         HandleMoveSpeed();
         HandleTrails();
+    }
+
+    public void ResetValues()
+    {
+        moveSpeed = 0;
+        moveInput = 0;
+        turnInput = 0;
+    }
+
+    public void UpdateInputs(float moveInput, float turnInput)
+    {
+        this.moveInput += moveInput;
+        this.turnInput += turnInput;
+    }
+
+    public float GetInputMove()
+    {
+        return Input.GetAxisRaw("Mouse ScrollWheel") / 3;
+    }
+
+    public float GetInputRotation()
+    {
+        if (Mathf.Abs(Input.GetAxisRaw("Mouse X")) > mouseDeadZone)
+            return Input.GetAxisRaw("Mouse X") * 3;
+
+        return 0;
     }
 
     private void HandleMoveSpeed()
@@ -75,8 +104,8 @@ public class CarController : MonoBehaviour
 
     private void HandleRotation()
     {
-        if (Mathf.Abs(Input.GetAxisRaw("Mouse X")) > mouseDeadZone)
-            turnInput += Input.GetAxisRaw("Mouse X") * 3;
+        if(!driveAgent.enabled)
+            turnInput += GetInputRotation();
 
         if (Mathf.Abs(turnInput) > turnRadius)
             turnInput = turnInput > 0 ? turnRadius : -turnRadius;
@@ -134,12 +163,5 @@ public class CarController : MonoBehaviour
         }
 
         motorSphere.AddForce(transform.forward * moveSpeed, ForceMode.Acceleration);       
-    }
-
-    private void ResetValues()
-    {
-        moveSpeed = 0;
-        moveInput = 0;
-        turnInput = 0;
     }
 }
