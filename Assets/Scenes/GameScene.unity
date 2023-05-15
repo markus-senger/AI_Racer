@@ -9545,6 +9545,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4065aac3eefc7f4e90733a8cb73b7ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &714719748 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2826544081951234842, guid: f4981cbb1840b5245995c860abcc0876, type: 3}
+  m_PrefabInstance: {fileID: 2826544080810764259}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1c4e0b1822b495aa52bc52839ecb30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &721354122
 GameObject:
   m_ObjectHideFlags: 0
@@ -17828,7 +17839,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1343828857}
-  m_LocalRotation: {x: -0, y: -7.1054265e-15, z: 1.554312e-15, w: 1}
+  m_LocalRotation: {x: -0, y: -5.5550936e-10, z: 1.0928912e-10, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -20096,6 +20107,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4065aac3eefc7f4e90733a8cb73b7ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!135 &1503060964 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 2826544081204573255, guid: f4981cbb1840b5245995c860abcc0876, type: 3}
+  m_PrefabInstance: {fileID: 2826544080810764259}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1507573610 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8121123564845872179, guid: f5d3c5e0f5f32c141911c08deee9e94d, type: 3}
@@ -22635,7 +22651,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687258581}
-  m_LocalRotation: {x: 0.09697528, y: -0.000000011522216, z: 0.0000000011226622, w: 0.9952868}
+  m_LocalRotation: {x: 0.09697528, y: -0.000000012270872, z: 0.0000000011956073, w: 0.9952868}
   m_LocalPosition: {x: 2.0600007, y: -0.28113198, z: -13.910431}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -27364,6 +27380,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2826544081403046686, guid: f4981cbb1840b5245995c860abcc0876, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2826544081403046686, guid: f4981cbb1840b5245995c860abcc0876, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2826544081951234836, guid: f4981cbb1840b5245995c860abcc0876, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -27408,18 +27432,58 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2826544081951234837, guid: f4981cbb1840b5245995c860abcc0876, type: 3}
+      propertyPath: DecisionPeriod
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2826544081951234838, guid: f4981cbb1840b5245995c860abcc0876, type: 3}
+      propertyPath: fwdSpeed
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 2826544081951234838, guid: f4981cbb1840b5245995c860abcc0876, type: 3}
+      propertyPath: turnSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2826544081951234838, guid: f4981cbb1840b5245995c860abcc0876, type: 3}
       propertyPath: uiTurnSlider
       value: 
       objectReference: {fileID: 1921069918}
     - target: {fileID: 2826544081951234838, guid: f4981cbb1840b5245995c860abcc0876, type: 3}
+      propertyPath: driveManually
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2826544081951234838, guid: f4981cbb1840b5245995c860abcc0876, type: 3}
+      propertyPath: mouseDeadZone
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2826544081951234838, guid: f4981cbb1840b5245995c860abcc0876, type: 3}
       propertyPath: uiSpeedSlider
       value: 
       objectReference: {fileID: 150154203}
+    - target: {fileID: 2826544081951234838, guid: f4981cbb1840b5245995c860abcc0876, type: 3}
+      propertyPath: driveAgentBehaviorParameters
+      value: 
+      objectReference: {fileID: 714719748}
     - target: {fileID: 2826544081951234839, guid: f4981cbb1840b5245995c860abcc0876, type: 3}
       propertyPath: m_Name
       value: RacingCar
       objectReference: {fileID: 0}
+    - target: {fileID: 2826544081951234842, guid: f4981cbb1840b5245995c860abcc0876, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2826544081951234843, guid: f4981cbb1840b5245995c860abcc0876, type: 3}
+      propertyPath: MaxStep
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2826544081951234843, guid: f4981cbb1840b5245995c860abcc0876, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2826544081951234843, guid: f4981cbb1840b5245995c860abcc0876, type: 3}
+      propertyPath: motorSphere
+      value: 
+      objectReference: {fileID: 1503060964}
     - target: {fileID: 2826544081951234843, guid: f4981cbb1840b5245995c860abcc0876, type: 3}
       propertyPath: trackSubGoals
       value: 

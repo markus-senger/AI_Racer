@@ -1,6 +1,7 @@
 using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.MLAgents.Policies;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,7 +24,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private RectTransform uiSpeedSlider;
     [SerializeField] private GameObject uiTurnSlider;
 
-    [SerializeField] private DriveAgent driveAgent;
+    [SerializeField] private bool driveManually;
 
     private float moveInput;
     private float oldMoveInput;
@@ -46,7 +47,7 @@ public class CarController : MonoBehaviour
     private void Update()
     {
         oldMoveInput = moveInput;
-        if (!driveAgent.enabled)
+        if (driveManually)
             moveInput += GetInputMove();
 
         HandleBrakeLights();
@@ -104,7 +105,7 @@ public class CarController : MonoBehaviour
 
     private void HandleRotation()
     {
-        if(!driveAgent.enabled)
+        if(driveManually)
             turnInput += GetInputRotation();
 
         if (Mathf.Abs(turnInput) > turnRadius)

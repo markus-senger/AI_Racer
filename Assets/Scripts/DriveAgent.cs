@@ -11,12 +11,13 @@ public class DriveAgent : Agent
     [SerializeField] private TrackSubGoals trackSubGoals;
     [SerializeField] private ColliderCheck colliderCheck;
     [SerializeField] private CarController controller;
+    [SerializeField] private SphereCollider motorSphere;
 
-    private Vector3 startPos;
+    private Vector3 startPosSphere;
 
     private void Awake()
     {
-        startPos = controller.motorSphere.transform.position;
+        startPosSphere = motorSphere.gameObject.transform.position;
     }
 
     private void Start()
@@ -30,19 +31,17 @@ public class DriveAgent : Agent
 
     private void OnCarColliderEnter(object sender, EventArgs e)
     {
-        AddReward(-0.5f);
+        AddReward(-1f);
     }
 
     private void OnCarColliderStay(object sender, EventArgs e)
     {
-        Debug.Log("END Ep");
-        AddReward(-1.0f);
-        EndEpisode();
+        AddReward(-0.1f);
     }
 
     private void OnCarCorrectSubGoal(object sender, EventArgs e)
     {
-        AddReward(1f);
+        AddReward(0.5f);
     }
 
     private void OnCarWrongSubGoal(object sender, EventArgs e)
@@ -52,11 +51,32 @@ public class DriveAgent : Agent
 
     public override void OnEpisodeBegin()
     {
-        Debug.Log("Start Ep");
+        Debug.Log("Start Ep: " + startPosSphere);
+
+        colliderCheck.GetComponent<BoxCollider>().enabled = false;
+        motorSphere.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+
+        DecisionRequester decisionRequester = GetComponent<DecisionRequester>();
+        if (decisionRequester != null)
+        {
+            Destroy(decisionRequester);
+        }
+
         controller.ResetValues();
         trackSubGoals.ResetSubGoals();
-        controller.motorSphere.transform.position = startPos;// + new Vector3(UnityEngine.Random.Range(-5f, 5f), 0, UnityEngine.Random.Range(-5f, 5f));
+        motorSphere.gameObject.transform.position = startPosSphere; // + new Vector3(UnityEngine.Random.Range(-5f, 5f), 0, UnityEngine.Random.Range(-5f, 5f));
         transform.rotation = Quaternion.Euler(0,0,0);
+        StartCoroutine(RespawnDecisionRequester(2f));
+    }
+
+    private IEnumerator RespawnDecisionRequester(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        motorSphere.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+        colliderCheck.GetComponent<BoxCollider>().enabled = true;
+        var decisionRequester = gameObject.AddComponent<DecisionRequester>();
+        decisionRequester.DecisionPeriod = 10;
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
