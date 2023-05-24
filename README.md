@@ -6,6 +6,8 @@ This project was developed as part of a Machine Learning course at the universit
 * Training on a Small Race Track: The ML agent has been successfully trained on a small race track with various reward systems, demonstrating its ability to learn and improve.
 * Scope for Improvement: While the ML agent performs well on smaller and simpler race tracks, further training is required to tackle larger and more complex race tracks and achieve optimal results.
 
+Please note that this repository is primarily intended as a learning project rather than striving for a perfect solution for autonomous driving. The main purpose is to provide an opportunity to explore and gain a better understanding of Reinforcement Learning techniques in the context of training a racing car.
+
 
 ![image](https://user-images.githubusercontent.com/77236323/233083137-3bebb827-dc1e-4c14-93f9-19528ac24eaf.png)
 
