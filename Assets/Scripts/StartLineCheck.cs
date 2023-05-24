@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,6 +8,8 @@ public class StartLineCheck : MonoBehaviour
 {
     [SerializeField] private TMP_Text timeText;
     [SerializeField] private TMP_Text bestTimeText;
+
+    public event EventHandler OnNewRound;
 
     private bool isActive;
     private bool newRound;
@@ -26,7 +29,10 @@ public class StartLineCheck : MonoBehaviour
         if (triggerActive)
         {
             if (isActive)
+            {
                 newRound = true;
+                OnNewRound?.Invoke(this, EventArgs.Empty);
+            }
             isActive = true;
             triggerActive = false;
         }

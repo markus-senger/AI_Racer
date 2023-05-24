@@ -28,8 +28,8 @@ public class CarController : MonoBehaviour
 
     private float moveInput;
     private float oldMoveInput;
-    private float moveSpeed;
-    private float turnInput;
+    public float moveSpeed;
+    public float turnInput;
 
     private int cntForBrakeLightDuration;
     private int brakeLightDuration = 10;
@@ -156,11 +156,11 @@ public class CarController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (ColliderCheck.collisionFlag)
+        if (car.GetComponent<ColliderCheck>().collisionFlag)
         {
             moveInput -= collisionImpact;
             if (moveInput < 0) moveInput = 0.1f;
-            ColliderCheck.collisionFlag = false;
+            car.GetComponent<ColliderCheck>().collisionFlag = false;
         }
 
         motorSphere.AddForce(transform.forward * moveSpeed, ForceMode.Acceleration);       

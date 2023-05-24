@@ -7,9 +7,9 @@ public class SubGoal : MonoBehaviour
     private TrackSubGoals trackSubGoals;
     private void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent<SphereCollider>(out SphereCollider sphereCollider))
+        if(other.TryGetComponent<ColliderCheck>(out ColliderCheck collider))
         {
-            trackSubGoals.CarThroughSubGoal(this);
+            trackSubGoals.CarThroughSubGoal(this, collider.parent);
         }
     }
 

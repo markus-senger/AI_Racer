@@ -8,7 +8,14 @@ public class ColliderCheck : MonoBehaviour
     public event EventHandler OnCarColliderEnter;
     public event EventHandler OnCarColliderStay;
 
-    public static bool collisionFlag;
+    public bool collisionFlag;
+
+    public Transform parent { get; set; }
+
+    private void Awake()
+    {
+        parent = transform.parent.transform;
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
