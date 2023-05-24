@@ -27,7 +27,6 @@ public class DriveAgent : Agent
         trackSubGoals.OnCarWrongSubGoal += OnCarWrongSubGoal;
 
         colliderCheck.OnCarColliderEnter += OnCarColliderEnter;
-        colliderCheck.OnCarColliderStay += OnCarColliderStay;
     }
 
     private void OnCarColliderEnter(object sender, EventArgs e)
